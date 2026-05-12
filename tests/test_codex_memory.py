@@ -36,7 +36,14 @@ class CodexMemoryTests(unittest.TestCase):
             self.assertIn("run_codex.sh", written_names)
             self.assertIn("run_codex.cmd", written_names)
             self.assertIn("run_codex.ps1", written_names)
-            self.assertTrue((root / "run_codex.sh").read_text(encoding="utf-8").startswith("#!/usr/bin/env bash"))
+
+            config_text = (root / ".codex-memory.toml").read_text(encoding="utf-8")
+            self.assertIn('project_id = "demo"', config_text)
+            self.assertIn('{storage_root}/demo/{machine}', config_text)
+
+            shell_wrapper = (root / "run_codex.sh").read_text(encoding="utf-8")
+            self.assertTrue(shell_wrapper.startswith("#!/usr/bin/env bash"))
+            self.assertIn('${BASH_SOURCE[0]}', shell_wrapper)
 
 
 if __name__ == "__main__":
