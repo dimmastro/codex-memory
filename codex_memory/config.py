@@ -292,10 +292,20 @@ def cli_overrides(args: argparse.Namespace, project_root: Path) -> dict[str, Any
     return mapping
 
 
+def nearest_existing_dir(path: Path) -> Path:
+    current = path
+    while not current.exists():
+        parent = current.parent
+        if parent == current:
+            return current
+        current = parent
+    return current
+
+
 def choose_storage_root(explicit: Path | None, preferred: Path, fallback: Path) -> Path:
     if explicit is not None:
         return explicit
-    if os.access(preferred.parent, os.W_OK):
+    if os.access(nearest_existing_dir(preferred.parent), os.W_OK):
         return preferred
     return fallback
 

@@ -45,6 +45,14 @@ class CodexMemoryTests(unittest.TestCase):
             self.assertTrue(shell_wrapper.startswith("#!/usr/bin/env bash"))
             self.assertIn('${BASH_SOURCE[0]}', shell_wrapper)
 
+    def test_default_storage_root_prefers_dot_codex_when_project_root_is_writable(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            (root / ".git").mkdir()
+            args = argparse.Namespace(project_root=str(root))
+            config = load_config(args)
+            self.assertEqual(config.storage_root, (root / ".codex" / "memory").resolve())
+
 
 if __name__ == "__main__":
     unittest.main()
