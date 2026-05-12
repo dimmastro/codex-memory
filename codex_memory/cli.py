@@ -5,6 +5,7 @@ import json
 
 from .config import add_common_arguments, dump_config, ensure_python_version, load_config
 from .exporter import export_sessions
+from .init_project import init_project
 from .search import run_search
 
 
@@ -30,6 +31,11 @@ def build_parser() -> argparse.ArgumentParser:
 
     doctor_parser = subparsers.add_parser("doctor", help="show path diagnostics")
     add_common_arguments(doctor_parser)
+
+    init_parser = subparsers.add_parser("init", help="initialize Codex memory files in a project")
+    add_common_arguments(init_parser)
+    init_parser.add_argument("--force", action="store_true", help="overwrite existing generated files")
+    init_parser.add_argument("--wrapper-name", default="run_codex", help="wrapper base name, default: run_codex")
 
     return parser
 
@@ -73,6 +79,13 @@ def main(argv: list[str] | None = None) -> int:
         print(f"project_config_path = {config.project_config_path}")
         print(f"local_config_path = {config.local_config_path}")
         print(f"machine_name = {config.machine_name}")
+        return 0
+
+    if args.command == "init":
+        written = init_project(config=config, force=args.force, wrapper_name=args.wrapper_name)
+        for path in written:
+            print(path)
+        print(f"initialized {len(written)} file(s) in {config.project_root}")
         return 0
 
     parser.error(f"unsupported command: {args.command}")

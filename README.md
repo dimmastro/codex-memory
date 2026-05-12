@@ -2,7 +2,7 @@
 
 Config-driven Codex CLI memory tools.
 
-`codex-memory` exports local Codex CLI sessions into project-local memory, rebuilds summary/index/facts files, and supports fast text search across per-machine history.
+`codex-memory` exports local Codex CLI sessions into project-local memory, rebuilds summary/index/facts files, supports fast text search across per-machine history, and can bootstrap a project with config and wrappers.
 
 ## Features
 
@@ -12,6 +12,7 @@ Config-driven Codex CLI memory tools.
 - full rebuild export
 - summary/raw/facts/index outputs
 - search across one machine or all machines
+- `init` command for config and wrappers
 - Linux/macOS and Windows wrapper-friendly workflow
 
 ## Install
@@ -26,6 +27,7 @@ For Python 3.10, `tomli` is installed automatically.
 ## Commands
 
 ```bash
+codex-memory init --project-root . --project-id my_project --project-name my_project
 codex-memory export
 codex-memory search "reranker"
 codex-memory doctor
@@ -58,6 +60,14 @@ Optional local overrides that should stay out of git:
 
 ## Typical workflow
 
+Initialize a project once:
+
+```bash
+codex-memory init --project-root . --project-id my_project --project-name my_project
+```
+
+Then use:
+
 ```bash
 codex-memory export
 codex-memory search "baseline"
@@ -82,3 +92,9 @@ Typical contents:
 - `raw/*.md`
 
 `raw/` is usually better kept out of git.
+
+## Tests
+
+```bash
+python3 -m unittest tests.test_codex_memory -v
+```

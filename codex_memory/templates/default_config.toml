@@ -1,0 +1,41 @@
+project_id = "{project_id}"
+project_name = "{project_name}"
+
+sessions_dir = "~/.codex/sessions"
+preferred_storage_root = ".codex/memory"
+fallback_storage_root = ".codex-sync/memory"
+project_memory_dir_template = "{storage_root}/{project_id}/{machine}"
+
+include_raw = true
+include_summary = true
+include_facts = true
+include_index = true
+
+sanitize_missing_links = true
+relative_paths = true
+deduplicate_paths = true
+ignore_path_only_messages = true
+ignore_final_assistant_marker = true
+ignore_commentary = false
+
+raw_text_limit = 4000
+summary_user_limit = 500
+summary_assistant_limit = 1400
+summary_command_limit = 180
+summary_error_limit = 180
+
+max_commands_per_exchange = 8
+max_files_per_exchange = 10
+max_errors_per_exchange = 5
+max_commentary_items = 20
+
+meaningful_assistant_prefix_blacklist = [
+  "Сейчас ",
+  "Проверю ",
+  "Пересоберу ",
+  "Жду ",
+  "Исправлю ",
+  "Добавлю ",
+  "Нашёл ",
+  "Причина ",
+]
