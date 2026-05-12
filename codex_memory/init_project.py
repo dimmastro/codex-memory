@@ -12,12 +12,12 @@ def template_text(name: str) -> str:
 
 def render_default_config(config: MemoryConfig) -> str:
     template = template_text("default_config.toml")
-    return template.format(project_id=config.project_id, project_name=config.project_name)
+    return template.replace("{project_id}", config.project_id).replace("{project_name}", config.project_name)
 
 
 def render_wrapper(name: str, project_root: Path) -> str:
     template = template_text(name)
-    return template.format(project_root=project_root.as_posix())
+    return template.replace("{project_root}", project_root.as_posix())
 
 
 def maybe_write(path: Path, content: str, force: bool) -> Path | None:
