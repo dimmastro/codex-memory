@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "codex-memory"
+version = "0.1.0"
+description = "Config-driven Codex CLI memory tools"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+  "tomli>=2.0.1; python_version < '3.11'",
+]
+
+[project.scripts]
+codex-memory = "codex_memory.cli:main"
+
+[tool.setuptools]
+include-package-data = false
+
+[tool.setuptools.packages.find]
+include = ["codex_memory*"]
